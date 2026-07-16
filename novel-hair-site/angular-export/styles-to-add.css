@@ -1,0 +1,56 @@
+/* ============================================================
+   1. Paste this into your Angular project's styles.css
+   ============================================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* Design tokens */
+:root {
+  --background: #F7F2EB;
+  --foreground: #1C1916;
+  --card: #FBF8F3;
+  --card-foreground: #1C1916;
+  --primary: #1C1916;
+  --primary-foreground: #F7F2EB;
+  --secondary: #EDE6DB;
+  --secondary-foreground: #1C1916;
+  --muted: #EDE6DB;
+  --muted-foreground: #7A6F65;
+  --accent: #C4917A;
+  --accent-foreground: #ffffff;
+  --border: rgba(28, 25, 22, 0.12);
+  --ring: #C4917A;
+  --radius: 0.625rem;
+}
+
+/* Base */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Tailwind CSS custom property mappings.
+   If you're using Tailwind v4, add these inside your @theme block instead. */
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+}
+
+/* Font utility — used as font-playfair in the template */
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}

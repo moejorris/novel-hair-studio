@@ -1,0 +1,318 @@
+<!-- NAV -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#" class="flex flex-col leading-none">
+      <span class="font-playfair text-lg tracking-wide">Novel</span>
+      <span class="text-[10px] tracking-[0.25em] uppercase text-muted-foreground -mt-0.5">Hair Studio</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8">
+      @for (link of navLinks; track link) {
+        <a
+          [href]="'#' + link.toLowerCase()"
+          [class]="link === 'Book'
+            ? 'px-5 py-2 bg-foreground text-primary-foreground text-xs tracking-widest uppercase hover:bg-accent transition-colors duration-300'
+            : 'text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors duration-200'"
+        >{{ link }}</a>
+      }
+    </nav>
+
+    <button class="md:hidden" (click)="toggleMobile()" aria-label="Toggle menu">
+      @if (mobileOpen()) {
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      }
+    </button>
+  </div>
+
+  @if (mobileOpen()) {
+    <div class="md:hidden bg-background border-t border-border px-6 py-6 flex flex-col gap-5">
+      @for (link of navLinks; track link) {
+        <a
+          [href]="'#' + link.toLowerCase()"
+          (click)="closeMobile()"
+          class="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground"
+        >{{ link }}</a>
+      }
+    </div>
+  }
+</header>
+
+<!-- HERO -->
+<section class="relative h-screen min-h-[600px] flex items-end pb-20 overflow-hidden bg-stone-900">
+  <img
+    src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1600&h=1000&fit=crop&auto=format"
+    alt="Novel Hair Studio — warm salon atmosphere in Raleigh, NC"
+    class="absolute inset-0 w-full h-full object-cover opacity-65"
+  />
+  <div class="absolute inset-0 bg-gradient-to-t from-stone-900/85 via-stone-900/20 to-transparent"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+    <p class="text-xs tracking-[0.3em] uppercase text-accent mb-5">Raleigh, NC · Est. May 2025</p>
+    <h1 class="font-playfair text-5xl md:text-7xl text-white leading-[1.1] mb-6 max-w-2xl">
+      Your next<br /><em>chapter starts here</em>
+    </h1>
+    <p class="text-white/70 text-lg max-w-md mb-10 font-light leading-relaxed">
+      A boutique studio in Raleigh dedicated to blended color, effortless cuts, and hair that grows out beautifully.
+    </p>
+    <div class="flex flex-wrap gap-4">
+      <a href="#book" class="inline-flex items-center gap-2 px-8 py-4 bg-accent text-white text-xs tracking-widest uppercase hover:bg-accent/80 transition-colors duration-300">
+        Book Now
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#services" class="inline-flex items-center gap-2 px-8 py-4 border border-white/30 text-white text-xs tracking-widest uppercase hover:border-white/70 transition-colors duration-300">
+        View Services
+      </a>
+    </div>
+  </div>
+
+  <a href="#services" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/40 hover:text-white/70 transition-colors">
+    <span class="text-[10px] tracking-widest uppercase">Explore</span>
+    <svg class="animate-bounce" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-28 bg-background">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="mb-12">
+      <p class="text-xs tracking-[0.3em] uppercase text-accent mb-3">The menu</p>
+      <h2 class="font-playfair text-4xl md:text-5xl text-foreground">Services</h2>
+    </div>
+
+    <div class="flex gap-0 border-b border-border mb-10">
+      @for (tab of ['highlights', 'color', 'cuts']; track tab) {
+        <button
+          (click)="setTab(tab)"
+          [class]="'px-6 py-3 text-xs tracking-widest uppercase transition-colors duration-200 border-b-2 -mb-px ' +
+            (activeTab() === tab ? 'border-accent text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground')"
+        >{{ tab }}</button>
+      }
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
+      @for (svc of activeServices; track svc.name) {
+        <div class="bg-background p-8 hover:bg-secondary transition-colors duration-300">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="font-playfair text-xl italic">{{ svc.name }}</h3>
+            <span class="text-accent text-sm font-light ml-4 shrink-0">{{ svc.price }}</span>
+          </div>
+          <p class="text-muted-foreground text-sm leading-relaxed mb-4">{{ svc.desc }}</p>
+          <p class="text-xs tracking-widest uppercase text-muted-foreground/50">{{ svc.duration }}</p>
+        </div>
+      }
+    </div>
+
+    <div class="mt-4 p-5 border border-border bg-secondary text-sm text-muted-foreground">
+      <span class="font-medium text-foreground">New guest?</span>
+      Book <em class="font-playfair">The Color Prologue</em> — a 30-min color consultation ($25, credited toward your service) — so we can write the right story for your hair.
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-28 bg-secondary">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="mb-16">
+      <p class="text-xs tracking-[0.3em] uppercase text-accent mb-3">The work</p>
+      <h2 class="font-playfair text-4xl md:text-5xl text-foreground">Gallery</h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[220px]">
+      @for (img of galleryImages; track img.id) {
+        <div [class]="'overflow-hidden bg-muted ' + img.span">
+          <img
+            [src]="imageUrl(img.id, img.w, img.h)"
+            [alt]="img.alt"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+          />
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-28 bg-background">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid md:grid-cols-2 gap-16 items-center mb-24">
+      <div>
+        <p class="text-xs tracking-[0.3em] uppercase text-accent mb-3">The studio</p>
+        <h2 class="font-playfair text-4xl md:text-5xl leading-tight mb-8">
+          A new story<br /><em>in Raleigh</em>
+        </h2>
+        <div class="space-y-4 text-muted-foreground leading-relaxed text-[15px]">
+          <p>Novel Hair Studio opened in May 2025 with a simple idea: a boutique studio where every appointment feels personal, unhurried, and genuinely focused on you.</p>
+          <p>We specialize in blended color and lived-in cuts — the kind that look intentional at week one and effortless at week eight. Our services are named like chapters because that's how we think about hair: each visit is part of a longer, evolving story.</p>
+          <p>And yes — there's a book nook. Browse, borrow, or swap a read while you're here.</p>
+        </div>
+      </div>
+      <div class="relative h-[500px] bg-muted overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=700&h=900&fit=crop&auto=format"
+          alt="Novel Hair Studio interior in Raleigh NC"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-stone-900/70 to-transparent">
+          <p class="font-playfair italic text-white text-lg leading-snug">
+            "Color that grows out beautifully.<br />Cuts that keep their shape."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lianne -->
+    <div>
+      <p class="text-xs tracking-[0.3em] uppercase text-accent mb-3">The stylist</p>
+      <h3 class="font-playfair text-3xl text-foreground mb-12">Meet Lianne</h3>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center max-w-4xl">
+        <div class="aspect-[3/4] overflow-hidden bg-muted">
+          <img
+            src="https://images.unsplash.com/photo-1554151228-14d9def656e4?w=600&h=800&fit=crop&auto=format"
+            alt="Lianne Padilla — hairstylist at Novel Hair Studio Raleigh"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+          />
+        </div>
+        <div>
+          <h4 class="font-playfair text-3xl mb-1">Lianne Padilla</h4>
+          <p class="text-xs tracking-widest uppercase text-accent mb-6">Hairstylist · 14 Years Experience</p>
+          <div class="space-y-4 text-muted-foreground text-[15px] leading-relaxed">
+            <p>Originally from New York, Lianne brings 14 years of expertise in blended color and effortless cuts to Raleigh. Her approach is intuitive — every appointment starts with a real conversation about what you want and how your hair actually behaves.</p>
+            <p>She is certified in Redken color, Keratin Complex treatments, and hair extensions, and she founded Novel Hair Studio in May 2025.</p>
+            <p>Lianne also curates the studio's book nook — a rotating collection for clients to browse, borrow, or swap during their visit.</p>
+          </div>
+          <div class="mt-8 flex flex-wrap gap-2">
+            @for (cert of certifications; track cert) {
+              <span class="text-xs tracking-widest uppercase px-3 py-1.5 border border-border text-muted-foreground">{{ cert }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section id="book" class="py-28 bg-foreground text-primary-foreground">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
+    <div>
+      <p class="text-xs tracking-[0.3em] uppercase text-accent mb-3">Start your story</p>
+      <h2 class="font-playfair text-4xl md:text-5xl leading-tight mb-8">
+        Book an<br /><em>Appointment</em>
+      </h2>
+      <div class="space-y-6 text-white/60 text-sm">
+        <div>
+          <p class="text-white/90 font-medium mb-1">Location</p>
+          <p>Raleigh, NC</p>
+        </div>
+        <div>
+          <p class="text-white/90 font-medium mb-1">New to the studio?</p>
+          <p>We recommend starting with <em class="font-playfair text-white/80">The Color Prologue</em> — a 30-minute color consultation at $25, credited toward your first appointment.</p>
+        </div>
+        <div>
+          <p class="text-white/90 font-medium mb-1">Buy Now, Pay Later</p>
+          <p>Available for bookings between $50 and $4,000.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      @if (bookingDone()) {
+        <div class="border border-white/20 p-10 text-center">
+          <h3 class="font-playfair text-2xl mb-3 text-white">We'll be in touch</h3>
+          <p class="text-white/60 text-sm leading-relaxed">Your request has been received. Lianne will confirm your appointment within 24 hours.</p>
+          <button
+            (click)="resetForm()"
+            class="mt-6 text-xs tracking-widest uppercase text-accent hover:text-white transition-colors"
+          >Submit another request</button>
+        </div>
+      } @else {
+        <form (ngSubmit)="onSubmit()" #bookingForm="ngForm" class="space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">First Name</label>
+              <input required name="firstName" [(ngModel)]="firstName" placeholder="Your name"
+                class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-accent text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">Last Name</label>
+              <input required name="lastName" [(ngModel)]="lastName" placeholder="Last name"
+                class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-accent text-sm" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">Email</label>
+            <input required type="email" name="email" [(ngModel)]="email" placeholder="you@example.com"
+              class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-accent text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">Phone</label>
+            <input type="tel" name="phone" [(ngModel)]="phone" placeholder="(919) 555-0100"
+              class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-accent text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">Service</label>
+            <select required name="selectedService" [(ngModel)]="selectedService"
+              class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-accent text-sm appearance-none">
+              <option value="" disabled>Select a service</option>
+              @for (s of allServices; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">Preferred Date</label>
+            <input required type="date" name="preferredDate" [(ngModel)]="preferredDate"
+              class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white focus:outline-none focus:border-accent text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-widest uppercase text-white/50 mb-3">Preferred Time</label>
+            <div class="grid grid-cols-4 gap-2">
+              @for (t of times; track t) {
+                <button type="button" (click)="setTime(t)"
+                  [class]="'py-2 text-xs border transition-colors duration-200 ' +
+                    (selectedTime() === t ? 'border-accent bg-accent text-white' : 'border-white/20 text-white/60 hover:border-white/50 hover:text-white')"
+                >{{ t }}</button>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs tracking-widest uppercase text-white/50 mb-2">Tell us about your hair</label>
+            <textarea rows="3" name="hairNotes" [(ngModel)]="hairNotes"
+              placeholder="Current color, hair history, inspiration, goals — anything helpful…"
+              class="w-full bg-white/10 border border-white/20 px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-accent text-sm resize-none"></textarea>
+          </div>
+
+          <button type="submit"
+            class="w-full py-4 bg-accent text-white text-xs tracking-widest uppercase hover:bg-accent/80 transition-colors duration-300"
+          >Request Appointment</button>
+        </form>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-background border-t border-border py-12">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-muted-foreground text-xs tracking-widest uppercase">
+    <div class="flex flex-col items-center md:items-start leading-none">
+      <span class="font-playfair text-foreground text-base tracking-wide normal-case">Novel</span>
+      <span class="text-[10px] tracking-[0.25em] text-muted-foreground normal-case mt-0.5">Hair Studio · Raleigh, NC</span>
+    </div>
+    <div class="flex gap-8">
+      @for (link of navLinks; track link) {
+        <a [href]="'#' + link.toLowerCase()" class="hover:text-foreground transition-colors">{{ link }}</a>
+      }
+    </div>
+    <span>© 2025 Novel Hair Studio</span>
+  </div>
+</footer>
